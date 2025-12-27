@@ -10,17 +10,13 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# =========================
 # SECURITY
-# =========================
 SECRET_KEY = 'django-insecure-+)sy337a6o*_&hpvm-jp2!ao7p$^77o=rw83!#+473%u81ct8#'
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = ['*']
 
 
-# =========================
 # APPLICATIONS
-# =========================
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -36,9 +32,7 @@ INSTALLED_APPS = [
 ]
 
 
-# =========================
 # REST FRAMEWORK (JWT)
-# =========================
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -46,9 +40,7 @@ REST_FRAMEWORK = {
 }
 
 
-# =========================
 # MIDDLEWARE
-# =========================
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -61,17 +53,13 @@ MIDDLEWARE = [
 ]
 
 
-# =========================
 # URLS / WSGI
-# =========================
 ROOT_URLCONF = 'gym_backend.urls'
 
 WSGI_APPLICATION = 'gym_backend.wsgi.application'
 
 
-# =========================
 # TEMPLATES
-# =========================
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -88,9 +76,7 @@ TEMPLATES = [
 ]
 
 
-# =========================
 # DATABASE
-# =========================
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -106,9 +92,7 @@ DATABASES = {
 }
 
 
-# =========================
 # PASSWORD VALIDATION
-# =========================
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
