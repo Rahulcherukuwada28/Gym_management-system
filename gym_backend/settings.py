@@ -147,6 +147,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173",
     "http://192.168.1.5:5173",
      "https://gym-management-frontend.onrender.com", 
+     "https://gym-managment-frontend.vercel.app",
 ]
 
 CORS_ALLOW_HEADERS = [
