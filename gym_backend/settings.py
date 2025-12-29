@@ -8,7 +8,7 @@ from pathlib import Path
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
 # SECURITY
 SECRET_KEY = 'django-insecure-+)sy337a6o*_&hpvm-jp2!ao7p$^77o=rw83!#+473%u81ct8#'
@@ -84,13 +84,23 @@ TEMPLATES = [
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-DATABASES = {
-    'default': dj_database_url.parse(
-        os.environ.get("DATABASE_URL","sqlite:///db.sqlite3"),
-        conn_max_age=600,
-        ssl_require=True,
-    )
-}
+if DATABASE_URL:
+    # ✅ Render / Production (PostgreSQL)
+    DATABASES = {
+        "default": dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=True,
+        )
+    }
+else:
+    # ✅ Local Development (SQLite)
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 
 # PASSWORD VALIDATION
