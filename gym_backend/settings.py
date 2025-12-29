@@ -149,6 +149,10 @@ CORS_ALLOWED_ORIGINS = [
      "https://gym-management-frontend.onrender.com", 
      "https://gym-managment-frontend.vercel.app",
 ]
+# If you rely on CSRF for forms (unlikely for pure JWT, but good to have):
+CSRF_TRUSTED_ORIGINS = [
+    "https://gym-managment-frontend.vercel.app",
+]
 
 CORS_ALLOW_HEADERS = [
     'content-type',
