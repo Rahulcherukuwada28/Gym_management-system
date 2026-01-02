@@ -1,22 +1,23 @@
 """
 Django settings for gym_backend project.
 """
+
 import os
+from pathlib import Path
 import dj_database_url
 
-from pathlib import Path
-
-
 BASE_DIR = Path(__file__).resolve().parent.parent
-DATABASE_URL = os.environ.get("DATABASE_URL")
 
+# =========================
 # SECURITY
+# =========================
 SECRET_KEY = 'django-insecure-+)sy337a6o*_&hpvm-jp2!ao7p$^77o=rw83!#+473%u81ct8#'
 DEBUG = False
 ALLOWED_HOSTS = ['*']
 
-
+# =========================
 # APPLICATIONS
+# =========================
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -31,36 +32,42 @@ INSTALLED_APPS = [
     'core',
 ]
 
-
+# =========================
 # REST FRAMEWORK (JWT)
+# =========================
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
 
-
+# =========================
 # MIDDLEWARE
+# ⚠️ ORDER MATTERS
+# =========================
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # MUST BE FIRST
     'django.middleware.security.SecurityMiddleware',
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
+# =========================
 # URLS / WSGI
+# =========================
 ROOT_URLCONF = 'gym_backend.urls'
-
 WSGI_APPLICATION = 'gym_backend.wsgi.application'
 
-
+# =========================
 # TEMPLATES
+# =========================
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -76,16 +83,12 @@ TEMPLATES = [
     },
 ]
 
-
+# =========================
 # DATABASE
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+# =========================
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
 if DATABASE_URL:
-    # ✅ Render / Production (PostgreSQL)
     DATABASES = {
         "default": dj_database_url.parse(
             DATABASE_URL,
@@ -94,7 +97,6 @@ if DATABASE_URL:
         )
     }
 else:
-    # ✅ Local Development (SQLite)
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -102,8 +104,9 @@ else:
         }
     }
 
-
+# =========================
 # PASSWORD VALIDATION
+# =========================
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -111,26 +114,19 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-
 # =========================
-# INTERNATIONALIZATION  ✅ FIXED
+# INTERNATIONALIZATION
 # =========================
 LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'Asia/Kolkata'   # ✅ CRITICAL FIX
-
+TIME_ZONE = 'Asia/Kolkata'
 USE_I18N = True
 USE_TZ = True
 
-
 # =========================
-# STATIC FILES
+# STATIC FILES (ADMIN FIX)
 # =========================
-# STATIC_URL = 'static/'
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-# Required for admin static
-STATICFILES_DIRS = []
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # =========================
@@ -138,32 +134,44 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # =========================
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# =========================
+# ✅ CORS CONFIGURATION (FIXED)
+# =========================
+CORS_ALLOW_ALL_ORIGINS = False
 
-# =========================
-# CORS CONFIGURATION
-# =========================
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://192.168.1.5:5173",
-    "https://gym-management-frontend.onrender.com", 
+
     "https://gym-managment-frontend.vercel.app",
-]
-# If you rely on CSRF for forms (unlikely for pure JWT, but good to have):
-CSRF_TRUSTED_ORIGINS = [
-    "https://gym-managment-frontend.vercel.app",
+    "https://gym-managment-frontend-edl52i0qe-rahulcherukuwada28s-projects.vercel.app",
 ]
 
+# 🔥 REQUIRED FOR JWT + AXIOS
+CORS_ALLOW_CREDENTIALS = True
+
+# 🔥 REQUIRED HEADERS
 CORS_ALLOW_HEADERS = [
-    'content-type',
-    'authorization',
+    "accept",
+    "authorization",
+    "content-type",
+    "origin",
+    "x-csrftoken",
+    "x-requested-with",
 ]
 
 CORS_ALLOW_METHODS = [
-    'GET',
-    'POST',
-    'PUT',
-    'PATCH',
-    'DELETE',
-    'OPTIONS',
+    "GET",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE",
+    "OPTIONS",
+]
+
+# 🔥 REQUIRED FOR POST FROM VERCEL
+CSRF_TRUSTED_ORIGINS = [
+    "https://gym-managment-frontend.vercel.app",
+    "https://gym-managment-frontend-edl52i0qe-rahulcherukuwada28s-projects.vercel.app",
 ]
