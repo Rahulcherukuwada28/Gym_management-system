@@ -43,8 +43,8 @@ REST_FRAMEWORK = {
 # MIDDLEWARE
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -146,8 +146,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://192.168.1.5:5173",
-     "https://gym-management-frontend.onrender.com", 
-     "https://gym-managment-frontend.vercel.app",
+    "https://gym-management-frontend.onrender.com", 
+    "https://gym-managment-frontend.vercel.app",
 ]
 # If you rely on CSRF for forms (unlikely for pure JWT, but good to have):
 CSRF_TRUSTED_ORIGINS = [
